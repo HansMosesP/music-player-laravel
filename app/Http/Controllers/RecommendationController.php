@@ -9,7 +9,7 @@ class RecommendationController extends Controller
     // Fungsinya untuk menampilkan semua rekomendasi lagu
     public function index()
     {
-        // Menyediakan data musik langsung di dalam codingan (Bypass Database)
+        // Menyediakan data musik langsung di dalam codingan 
         $recommendations = [
             (object) [
                 'song_title' => 'Kasih Aba Aba',
