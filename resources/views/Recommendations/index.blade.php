@@ -6,7 +6,7 @@
     <title>Rekomendasi Lagu</title>
 </head>
 <body>
-    <h1>Ini Adalah Daftar Rekomendasi Musik Untuk Kamu, Enjoy!!</h1>
+    <h1>Ini Adalah Daftar Rekomendasi Musik Untuk Kamu, Selamat Mendengarkan!</h1>
     
     <ul>
         @forelse($recommendations as $music)

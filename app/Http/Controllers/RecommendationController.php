@@ -1,34 +1,69 @@
 <?php
-// Calvin
+
 namespace App\Http\Controllers;
 
+use App\Models\Recommendation;
 use Illuminate\Http\Request;
 
 class RecommendationController extends Controller
 {
-    // Fungsinya untuk menampilkan semua rekomendasi lagu
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        // Menyediakan data musik langsung di dalam codingan 
-        $recommendations = [
-            (object) [
-                'song_title' => 'Kasih Aba Aba',
-                'artist' => 'Tenxi',
-                'reason' => 'Beat-nya asik dan bikin nagih banget, cocok masuk daftar rekomendasi utama.'
-            ],
-            (object) [
-                'song_title' => 'Malu Malu',
-                'artist' => 'Indahkus',
-                'reason' => 'Vibes lagunya ceria dan santai, pas banget buat didengerin kalo lagi santai.'
-            ],
-            (object) [
-                'song_title' => 'Dirimu Yang Dulu',
-                'artist' => 'Anggis Devaki',
-                'reason' => 'Lagu dengan sadvibes yang berasa banget dihati.'
-            ]
-        ];
+        // Mengambil semua data rekomendasi dari database
+        $recommendations = Recommendation::all();
         
         // Mengembalikan tampilan (view) bersama datanya
         return view('recommendations.index', compact('recommendations'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Recommendation $recommendation)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Recommendation $recommendation)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Recommendation $recommendation)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Recommendation $recommendation)
+    {
+        //
     }
 }
