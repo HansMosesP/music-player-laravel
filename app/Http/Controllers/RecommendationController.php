@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Recommendation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RecommendationController extends Controller
 {
@@ -24,7 +25,8 @@ class RecommendationController extends Controller
      */
     public function create()
     {
-        //
+        // Menampilkan halaman form untuk menambah lagu rekomendasi baru
+        return view('recommendations.create');
     }
 
     /**
@@ -32,15 +34,32 @@ class RecommendationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // 1. Validasi input form agar tidak kosong
+        $validated = $request->validate([
+            'song_title' => 'required|string|max:255',
+            'artist'     => 'required|string|max:255',
+            'reason'     => 'required|string',
+        ]);
+
+        // 2. Simpan ke database menggunakan data user 
+        Recommendation::create([
+            'user_id'    => Auth::id(), // Mengambil ID user yang sedang login
+            'song_title' => $validated['song_title'],
+            'artist'     => $validated['artist'],
+            'reason'     => $validated['reason'],
+        ]);
+
+        // 3. Redirect kembali ke halaman utama 
+        return redirect('/recommendations')->with('success', 'Rekomendasi lagu berhasil ditambahkan!');
     }
+    
 
     /**
      * Display the specified resource.
      */
     public function show(Recommendation $recommendation)
     {
-        //
+        return view('recommendations.show', compact('recommendation'));
     }
 
     /**
@@ -48,7 +67,7 @@ class RecommendationController extends Controller
      */
     public function edit(Recommendation $recommendation)
     {
-        //
+        // 
     }
 
     /**

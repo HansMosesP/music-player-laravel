@@ -12,11 +12,19 @@
         Login sebagai: <strong>{{ auth()->user()->name }}</strong>
     </p>
 
+    <p>
+        <a href="{{ route('recommendations.create') }}">
+            <button type="button">+ Tambah Rekomendasi Baru</button>
+        </a>
+    </p>
+
     <form method="POST" action="{{ route('logout') }}">
         @csrf
         <button type="submit">Logout</button>
     </form>
 
+    <br>
+    <hr>
     <br>
 
     <ul>

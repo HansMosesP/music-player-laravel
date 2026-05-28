@@ -24,6 +24,7 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/recommendations', [RecommendationController::class, 'index'])->name('recommendations.index');
-
+    Route::get('/recommendations/create', [RecommendationController::class, 'create'])->name('recommendations.create');
+    Route::post('/recommendations', [RecommendationController::class, 'store'])->name('recommendations.store');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-});
+}); 
