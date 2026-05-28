@@ -1,4 +1,4 @@
-// Calvin
+{{-- Calvin & Hans --}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,10 +7,24 @@
 </head>
 <body>
     <h1>Ini Adalah Daftar Rekomendasi Musik Untuk Kamu, Selamat Mendengarkan!</h1>
-    
+
+    <p>
+        Login sebagai: <strong>{{ auth()->user()->name }}</strong>
+    </p>
+
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button type="submit">Logout</button>
+    </form>
+
+    <br>
+
     <ul>
         @forelse($recommendations as $music)
-            <li><strong>{{ $music->song_title }}</strong> - {{ $music->artist }} (Alasan: {{ $music->reason }})</li>
+            <li>
+                <strong>{{ $music->song_title }}</strong> - {{ $music->artist }} 
+                (Alasan: {{ $music->reason }})
+            </li>
         @empty
             <p>Belum ada rekomendasi lagu saat ini.</p>
         @endforelse
