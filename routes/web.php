@@ -1,10 +1,11 @@
 <?php
 
-// calvin & hans
+// calvin & hans & yensen
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RecommendationController;
+use App\Http\Controllers\HistoryController;
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -28,3 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/recommendations', [RecommendationController::class, 'store'])->name('recommendations.store');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 }); 
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/history', [HistoryController::class, 'index'])->name('history.index');
+});
