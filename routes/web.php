@@ -27,6 +27,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/recommendations', [RecommendationController::class, 'index'])->name('recommendations.index');
     Route::get('/recommendations/create', [RecommendationController::class, 'create'])->name('recommendations.create');
     Route::post('/recommendations', [RecommendationController::class, 'store'])->name('recommendations.store');
+    Route::get('/premium', [PremiumController::class, 'index'])->name('premium.index');
+    Route::get('/premium/create', [PremiumController::class, 'create'])->name('premium.create');
+    Route::post('/premium', [PremiumController::class, 'store'])->name('premium.store');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 }); 
 
