@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Premium;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PremiumController extends Controller
 {
@@ -14,7 +15,7 @@ class PremiumController extends Controller
     {
         // Mengambil data premium untuk user 
         $premium = Premium::where('user_id', Auth::id())->first(); 
-
+        // $premium = null;
         // Mengirim data status premium ke halaman view
         return view('premium.index', compact('premium'));
     }
@@ -46,7 +47,7 @@ class PremiumController extends Controller
         ]);
 
         // Kembali ke halaman premium dengan pesan sukses
-        return redirect()->route('premium.index')->with('success', 'Selamat! Akun Anda berhasil di-upgrade ke Premium.');
+        return redirect()->route('premium.index')->with('success', 'Selamat! Akun Anda sudah menjadi Premium.');
     }
 
     /**
@@ -70,7 +71,17 @@ class PremiumController extends Controller
      */
     public function update(Request $request, Premium $premium)
     {
-        //
+        // Memastikan bahwa data premium yang diubah adalah benar milik user yang sedang login
+        if ($premium->user_id !== Auth::id()) {
+            abort(403, 'Aksi tidak diizinkan.');
+        }
+
+        // Mengubah isi paket menjadi Tahunan
+        $premium->update([
+            'package_name' => 'Tahunan',
+        ]);
+
+        return redirect()->route('premium.index')->with('success', 'Paket langganan berhasil diubah menjadi Tahunan!');
     }
 
     /**
@@ -78,6 +89,14 @@ class PremiumController extends Controller
      */
     public function destroy(Premium $premium)
     {
-        //
+        // Memastikan bahwa data premium yang dihapus adalah benar milik user yang sedang login
+        if ($premium->user_id !== Auth::id()) {
+            abort(403, 'Aksi tidak diizinkan.');
+        }
+
+        // Menghapus data langganan premium dari database
+        $premium->delete();
+
+        return redirect()->route('premium.index')->with('success', 'Langganan premium Anda telah berhasil dibatalkan.');
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RecommendationController;
 use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\PremiumController;
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -27,9 +28,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/recommendations', [RecommendationController::class, 'index'])->name('recommendations.index');
     Route::get('/recommendations/create', [RecommendationController::class, 'create'])->name('recommendations.create');
     Route::post('/recommendations', [RecommendationController::class, 'store'])->name('recommendations.store');
-    Route::get('/premium', [PremiumController::class, 'index'])->name('premium.index');
-    Route::get('/premium/create', [PremiumController::class, 'create'])->name('premium.create');
-    Route::post('/premium', [PremiumController::class, 'store'])->name('premium.store');
+    Route::get('/premiums', [PremiumController::class, 'index'])->name('premium.index');
+    Route::get('/premiums/create', [PremiumController::class, 'create'])->name('premium.create');
+    Route::post('/premiums', [PremiumController::class, 'store'])->name('premium.store');
+    Route::put('/premiums/{premium}', [PremiumController::class, 'update'])->name('premium.update');
+    Route::delete('/premiums/{premium}', [PremiumController::class, 'destroy'])->name('premium.destroy');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 }); 
 
