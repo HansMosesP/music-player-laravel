@@ -19,7 +19,7 @@
         <br>
         
         @if($premium->package_name == 'Bulanan' || $premium->package_name == 'bulanan')
-            <form action="{{ route('premium.update', $premium->id) }}" method="POST">
+            <form action="{{ route('premium.update', $premium->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin beralih ke langganan tahunan?\nHarganya Rp. 399.000 / tahun')">
                 @csrf
                 @method('PUT')
                 <button type="submit">Ubah ke Paket Tahunan</button>
