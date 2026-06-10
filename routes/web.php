@@ -27,13 +27,7 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/recommendations', [RecommendationController::class, 'index'])->name('recommendations.index');
-    Route::get('/recommendations/create', [RecommendationController::class, 'create'])->name('recommendations.create');
-    Route::post('/recommendations', [RecommendationController::class, 'store'])->name('recommendations.store');
-    Route::get('/premiums', [PremiumController::class, 'index'])->name('premium.index');
-    Route::get('/premiums/create', [PremiumController::class, 'create'])->name('premium.create');
-    Route::post('/premiums', [PremiumController::class, 'store'])->name('premium.store');
-    Route::put('/premiums/{premium}', [PremiumController::class, 'update'])->name('premium.update');
-    Route::delete('/premiums/{premium}', [PremiumController::class, 'destroy'])->name('premium.destroy');
+
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     
     Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorite.index');

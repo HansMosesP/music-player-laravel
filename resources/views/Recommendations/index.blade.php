@@ -1,4 +1,4 @@
-{{-- Calvin & Hans --}}
+{{-- Calvin & Hans   --}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,6 +22,8 @@
         @csrf
         <button type="submit">Logout</button>
     </form>
+
+    <p><a href="{{ route('profile') }}">Profile</a></p>
 
     <br>
     <hr>
