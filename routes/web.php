@@ -1,12 +1,13 @@
 <?php
 
-// calvin & hans & yensen
+// James,Calvin,Hans & yensen
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RecommendationController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\PremiumController;
+use App\Http\Controllers\FavoriteController;
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -34,6 +35,9 @@ Route::middleware('auth')->group(function () {
     Route::put('/premiums/{premium}', [PremiumController::class, 'update'])->name('premium.update');
     Route::delete('/premiums/{premium}', [PremiumController::class, 'destroy'])->name('premium.destroy');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    
+    Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorite.index');
+    Route::post('/favorite/toggle', [FavoriteController::class, 'toggle'])->name('favorite.toggle');
 }); 
 
 Route::middleware(['auth'])->group(function () {
