@@ -18,6 +18,12 @@
         </a>
     </p>
 
+    <p>
+        <a href="{{ route('discovery.index') }}">
+            <button type="button">Discovery Lagu</button>
+        </a>
+    </p>
+
     <form method="POST" action="{{ route('logout') }}">
         @csrf
         <button type="submit">Logout</button>
