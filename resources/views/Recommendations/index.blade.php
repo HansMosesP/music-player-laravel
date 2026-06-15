@@ -24,6 +24,12 @@
         </a>
     </p>
 
+    <p>
+        <a href="{{ route('search.index') }}">
+            <button type="button">Cari Lagu</button>
+        </a>
+    </p>
+
     <form method="POST" action="{{ route('logout') }}">
         @csrf
         <button type="submit">Logout</button>

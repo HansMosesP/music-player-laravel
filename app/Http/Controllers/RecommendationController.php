@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Recommendation;
+use App\Models\Song;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -54,16 +55,16 @@ class RecommendationController extends Controller
     }
     
     /**
-     * Search recommendations by keyword.
+     * Search songs by keyword.
      */
     public function search(Request $request)
     {
         $keyword = $request->query('keyword');
 
-        $songs = Recommendation::when($keyword, function ($query, $keyword) {
-            $query->where('song_title', 'like', "%{$keyword}%")
+        $songs = Song::when($keyword, function ($query, $keyword) {
+            $query->where('title', 'like', "%{$keyword}%")
                   ->orWhere('artist', 'like', "%{$keyword}%")
-                  ->orWhere('reason', 'like', "%{$keyword}%");
+                  ->orWhere('album', 'like', "%{$keyword}%");
         })->get();
 
         return view('search.index', compact('songs'));
