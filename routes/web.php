@@ -37,6 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/premiums/{premium}', [PremiumController::class, 'destroy'])->name('premium.destroy');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorite.index');
+    Route::get('/search', [RecommendationController::class, 'search'])->name('search');
     Route::post('/favorite/toggle', [FavoriteController::class, 'toggle'])->name('favorite.toggle');
 }); 
 
