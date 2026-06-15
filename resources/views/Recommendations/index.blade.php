@@ -36,6 +36,12 @@
         </a>
     </p>
 
+    <p>
+        <a href="{{ route('lyrics.index') }}">
+            <button type="button">Lihat Semua Lirik</button>
+        </a>
+    </p>
+
     @if(session('success'))
         <p style="color: green;"><b>{{ session('success') }}</b></p>
     @endif
@@ -52,16 +58,33 @@
 
     <ul>
         @foreach($recommendations as $music)
+            @php
+                $displaySong = $music->song ?? $music;
+                $songTitle = $displaySong->title ?? $music->song_title;
+                $artist = $displaySong->artist ?? $music->artist;
+                $lyrics = $displaySong->lyrics ?? null;
+            @endphp
             <li>
-                <strong>{{ $music->song_title }}</strong> - {{ $music->artist }} 
+                <strong>{{ $songTitle }}</strong> - {{ $artist }} 
                 (Alasan: {{ $music->reason }})
+
+                @if($lyrics)
+                    <div style="margin-top: 8px; white-space: pre-wrap;">
+                        <b>Lirik:</b><br>
+                        {{ $lyrics }}
+                    </div>
+                @endif
+
+                <div style="margin-top: 8px;">
+                    <a href="{{ route('lyrics.show', $displaySong->id) }}">Buka halaman lirik</a>
+                </div>
 
                 <form action="{{ route('favorite.toggle') }}" method="POST" style="display:inline; margin-left: 10px;">
                     @csrf
-                    <input type="hidden" name="song_title" value="{{ $music->song_title }}">
-                    <input type="hidden" name="artist" value="{{ $music->artist }}">
+                    <input type="hidden" name="song_title" value="{{ $songTitle }}">
+                    <input type="hidden" name="artist" value="{{ $artist }}">
                     
-                    @if(\App\Models\Favorite::where('user_id', auth()->id())->where('song_title', $music->song_title)->where('artist', $music->artist)->exists())
+                    @if(in_array($songTitle . '|' . $artist, $favoriteKeys))
                         <button type="submit">❌ Hapus Favorit</button>
                     @else
                         <button type="submit">➕ Tambah Favorit</button>

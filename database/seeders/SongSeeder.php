@@ -29,19 +29,19 @@ class SongSeeder extends Seeder
         $rock = Genre::where('name', 'Rock')->first();
         $jazz = Genre::where('name', 'Jazz')->first();
 
-        Song::firstOrCreate(
+        Song::updateOrCreate(
             ['title' => 'Perfect', 'artist' => 'Ed Sheeran'],
-            ['genre_id' => $pop->id, 'album' => 'Divide', 'views' => 150]
+            ['genre_id' => $pop->id, 'album' => 'Divide', 'views' => 150, 'lyrics' => "I found a love for me\nDarling, just dive right in and follow my lead"]
         );
 
-        Song::firstOrCreate(
+        Song::updateOrCreate(
             ['title' => 'Numb', 'artist' => 'Linkin Park'],
-            ['genre_id' => $rock->id, 'album' => 'Meteora', 'views' => 300]
+            ['genre_id' => $rock->id, 'album' => 'Meteora', 'views' => 300, 'lyrics' => "I'm tired of being what you want me to be\nI've become so numb, I can't feel you there"]
         );
 
-        Song::firstOrCreate(
+        Song::updateOrCreate(
             ['title' => 'Fly Me To The Moon', 'artist' => 'Frank Sinatra'],
-            ['genre_id' => $jazz->id, 'album' => 'Jazz Collection', 'views' => 100]
+            ['genre_id' => $jazz->id, 'album' => 'Jazz Collection', 'views' => 100, 'lyrics' => "Fly me to the moon\nLet me play among the stars"]
         );
     }
 }

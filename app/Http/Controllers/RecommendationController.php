@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Favorite;
 use App\Models\Recommendation;
 use App\Models\Song;
 use Illuminate\Http\Request;
@@ -15,10 +16,16 @@ class RecommendationController extends Controller
     public function index()
     {
         // Mengambil semua data rekomendasi dari database
-        $recommendations = Recommendation::all();
+        $recommendations = Recommendation::with('song')->get();
+        $favoriteKeys = Favorite::where('user_id', Auth::id())
+            ->get()
+            ->map(function ($favorite) {
+                return $favorite->song_title . '|' . $favorite->artist;
+            })
+            ->all();
         
         // Mengembalikan tampilan (view) bersama datanya
-        return view('recommendations.index', compact('recommendations'));
+        return view('recommendations.index', compact('recommendations', 'favoriteKeys'));
     }
 
     /**
@@ -27,7 +34,9 @@ class RecommendationController extends Controller
     public function create()
     {
         // Menampilkan halaman form untuk menambah lagu rekomendasi baru
-        return view('recommendations.create');
+        $songs = Song::orderBy('title')->get();
+
+        return view('recommendations.create', compact('songs'));
     }
 
     /**
@@ -37,16 +46,20 @@ class RecommendationController extends Controller
     {
         // 1. Validasi input form agar tidak kosong
         $validated = $request->validate([
+            'song_id'    => 'required|exists:songs,id',
             'song_title' => 'required|string|max:255',
             'artist'     => 'required|string|max:255',
             'reason'     => 'required|string',
         ]);
 
+        $song = Song::findOrFail($validated['song_id']);
+
         // 2. Simpan ke database menggunakan data user 
         Recommendation::create([
             'user_id'    => Auth::id(), // Mengambil ID user yang sedang login
-            'song_title' => $validated['song_title'],
-            'artist'     => $validated['artist'],
+            'song_id'    => $song->id,
+            'song_title' => $song->title,
+            'artist'     => $song->artist,
             'reason'     => $validated['reason'],
         ]);
 

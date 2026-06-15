@@ -13,13 +13,35 @@
         @csrf 
 
         <p>
+            <label for="song_id"><b>Pilih Lagu:</b></label><br>
+            <select id="song_id" name="song_id" required>
+                <option value="">-- Pilih lagu dari database --</option>
+                @foreach($songs as $song)
+                    <option
+                        value="{{ $song->id }}"
+                        data-title="{{ $song->title }}"
+                        data-artist="{{ $song->artist }}"
+                        data-lyrics="{{ e($song->lyrics ?? '') }}"
+                    >
+                        {{ $song->title }} - {{ $song->artist }}
+                    </option>
+                @endforeach
+            </select>
+        </p>
+
+        <p>
             <label for="song_title"><b>Judul Lagu:</b></label><br>
-            <input type="text" id="song_title" name="song_title" placeholder="Contoh: Tak Segampang Itu" required>
+            <input type="text" id="song_title" name="song_title" readonly>
         </p>
 
         <p>
             <label for="artist"><b>Nama Penyanyi / Band:</b></label><br>
-            <input type="text" id="artist" name="artist" placeholder="Contoh: Anggis Devaki" required>
+            <input type="text" id="artist" name="artist" readonly>
+        </p>
+
+        <p>
+            <label for="lyrics_preview"><b>Lirik Lagu:</b></label><br>
+            <textarea id="lyrics_preview" rows="8" cols="60" readonly placeholder="Pilih lagu untuk menampilkan lirik..."></textarea>
         </p>
 
         <p>
@@ -33,6 +55,21 @@
             <a href="/recommendations">← Kembali ke Daftar</a>
         </p>
     </form>
+
+    <script>
+        const songSelect = document.getElementById('song_id');
+        const titleInput = document.getElementById('song_title');
+        const artistInput = document.getElementById('artist');
+        const lyricsPreview = document.getElementById('lyrics_preview');
+
+        songSelect.addEventListener('change', function () {
+            const selectedOption = this.options[this.selectedIndex];
+
+            titleInput.value = selectedOption.dataset.title || '';
+            artistInput.value = selectedOption.dataset.artist || '';
+            lyricsPreview.value = selectedOption.dataset.lyrics || '';
+        });
+    </script>
 
 </body>
 </html>

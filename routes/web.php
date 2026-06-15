@@ -5,6 +5,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RecommendationController;
+use App\Http\Controllers\LyricsController;
 use App\Http\Controllers\DiscoveryController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\PremiumController;
@@ -31,6 +32,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/recommendations', [RecommendationController::class, 'index'])->name('recommendations.index');
     Route::get('/recommendations/create', [RecommendationController::class, 'create'])->name('recommendations.create');
     Route::post('/recommendations', [RecommendationController::class, 'store'])->name('recommendations.store');
+    Route::get('/lyrics', [LyricsController::class, 'index'])->name('lyrics.index');
+    Route::get('/lyrics/{song}', [LyricsController::class, 'show'])->name('lyrics.show');
     Route::get('/discovery', [DiscoveryController::class, 'index'])->name('discovery.index');
     Route::get('/premiums', [PremiumController::class, 'index'])->name('premium.index');
     Route::get('/premiums/create', [PremiumController::class, 'create'])->name('premium.create');

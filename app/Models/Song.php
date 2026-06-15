@@ -12,10 +12,16 @@ class Song extends Model
         'artist',
         'album',
         'views',
+        'lyrics',
     ];
 
     public function genre()
     {
         return $this->belongsTo(Genre::class);
+    }
+
+    public function recommendations()
+    {
+        return $this->hasMany(Recommendation::class);
     }
 }
