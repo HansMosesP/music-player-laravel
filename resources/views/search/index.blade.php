@@ -5,13 +5,13 @@
 </head>
 <body>
 
-<h1>Search Songs</h1>
+<h1>Search Recommendations</h1>
 
 <form action="{{ route('search.index') }}" method="GET">
     <input
         type="text"
         name="keyword"
-        placeholder="Search song..."
+        placeholder="Search recommendations..."
         value="{{ request('keyword') }}"
     >
 
@@ -27,18 +27,14 @@
     @foreach($songs as $song)
 
         <div>
-            <h3>{{ $song->title }}</h3>
+            <h3>{{ $song->song_title }}</h3>
 
             <p>
                 Artist: {{ $song->artist }}
             </p>
 
             <p>
-                Album: {{ $song->album }}
-            </p>
-
-            <p>
-                Views: {{ $song->views }}
+                Reason: {{ $song->reason }}
             </p>
         </div>
 
@@ -48,7 +44,7 @@
 
 @else
 
-    <p>No songs found.</p>
+    <p>No recommendations found.</p>
 
 @endif
 

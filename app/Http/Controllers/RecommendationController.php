@@ -53,6 +53,21 @@ class RecommendationController extends Controller
         return redirect('/recommendations')->with('success', 'Rekomendasi lagu berhasil ditambahkan!');
     }
     
+    /**
+     * Search recommendations by keyword.
+     */
+    public function search(Request $request)
+    {
+        $keyword = $request->query('keyword');
+
+        $songs = Recommendation::when($keyword, function ($query, $keyword) {
+            $query->where('song_title', 'like', "%{$keyword}%")
+                  ->orWhere('artist', 'like', "%{$keyword}%")
+                  ->orWhere('reason', 'like', "%{$keyword}%");
+        })->get();
+
+        return view('search.index', compact('songs'));
+    }
 
     /**
      * Display the specified resource.
