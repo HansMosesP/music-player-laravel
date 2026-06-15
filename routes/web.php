@@ -1,6 +1,6 @@
 <?php
 
-// James,Calvin,Hans & yensen
+// James,Calvin,Hans,Andreas & yensen
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
