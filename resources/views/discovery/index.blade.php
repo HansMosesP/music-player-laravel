@@ -21,7 +21,7 @@
 
 <hr>
 
-<h2>Popular Songs</h2>
+<h2>Popular Song</h2>
 
 @foreach($popularSongs as $song)
 
