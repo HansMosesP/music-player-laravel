@@ -30,6 +30,15 @@
         </a>
     </p>
 
+    <p>
+        <a href="{{ route('favorite.index') }}">
+            <button type="button">⭐ Lihat Lagu Favorit</button>
+        </a>
+    </p>
+
+    @if(session('success'))
+        <p style="color: green;"><b>{{ session('success') }}</b></p>
+    @endif
     <form method="POST" action="{{ route('logout') }}">
         @csrf
         <button type="submit">Logout</button>
@@ -42,14 +51,24 @@
     <br>
 
     <ul>
-        @forelse($recommendations as $music)
+        @foreach($recommendations as $music)
             <li>
                 <strong>{{ $music->song_title }}</strong> - {{ $music->artist }} 
                 (Alasan: {{ $music->reason }})
+
+                <form action="{{ route('favorite.toggle') }}" method="POST" style="display:inline; margin-left: 10px;">
+                    @csrf
+                    <input type="hidden" name="song_title" value="{{ $music->song_title }}">
+                    <input type="hidden" name="artist" value="{{ $music->artist }}">
+                    
+                    @if(\App\Models\Favorite::where('user_id', auth()->id())->where('song_title', $music->song_title)->where('artist', $music->artist)->exists())
+                        <button type="submit">❌ Hapus Favorit</button>
+                    @else
+                        <button type="submit">➕ Tambah Favorit</button>
+                    @endif
+                </form>
             </li>
-        @empty
-            <p>Belum ada rekomendasi lagu saat ini.</p>
-        @endforelse
+        @endforeach
     </ul>
 </body>
 </html>
