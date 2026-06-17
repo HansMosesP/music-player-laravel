@@ -7,10 +7,15 @@
 </head>
 <body>
     <h1>Profil Saya</h1>
-    <p>Nama: {{ $user->name }}</p>
-    <p>Email: {{ $user->email }}</p>
-    <p>Dibuat pada: {{ $user->created_at ? $user->created_at->format('d M Y H:i') : '-' }}</p>
-    <p><a href="{{ route('recommendations.index') }}">Rekomendasi</a></p>
+
+    <p>Nama: {{ auth()->user()->name }}</p>
+    <p>Email: {{ auth()->user()->email }}</p>
+    <p>Dibuat pada: {{ auth()->user()->created_at ? auth()->user()->created_at->format('d M Y H:i') : '-' }}</p>
+
+    <p>
+        <a href="{{ route('recommendations.index') }}">Rekomendasi</a>
+    </p>
+
     <form method="POST" action="{{ route('logout') }}">
         @csrf
         <button type="submit">Logout</button>

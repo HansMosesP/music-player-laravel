@@ -22,7 +22,6 @@ Route::get('/', function () {
 Route::middleware('guest')->group(function () {
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register'])->name('register.post');
-    Route::post('/profile', [AuthController::class, 'profile'])->name('profile');
 
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.post');
@@ -44,6 +43,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorite.index');
     Route::get('/search', [RecommendationController::class, 'search'])->name('search.index');
     Route::post('/favorite/toggle', [FavoriteController::class, 'toggle'])->name('favorite.toggle');
+    Route::get('/profile', function () {
+        return view('auth.profile');
+    })->name('profile');
+    Route::post('/profile', [AuthController::class, 'profile'])->name('profile.update');
 }); 
 
 Route::middleware(['auth'])->group(function () {

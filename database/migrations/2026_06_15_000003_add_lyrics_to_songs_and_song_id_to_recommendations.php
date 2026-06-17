@@ -11,13 +11,29 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('songs', function (Blueprint $table) {
-            $table->longText('lyrics')->nullable()->after('views');
-        });
+        if (Schema::hasTable('songs')) {
+            Schema::table('songs', function (Blueprint $table) {
+                if (!Schema::hasColumn('songs', 'lyrics')) {
+                    if (Schema::hasColumn('songs', 'views')) {
+                        $table->longText('lyrics')->nullable()->after('views');
+                    } else {
+                        $table->longText('lyrics')->nullable();
+                    }
+                }
+            });
+        }
 
-        Schema::table('recommendations', function (Blueprint $table) {
-            $table->foreignId('song_id')->nullable()->after('user_id')->constrained('songs')->nullOnDelete();
-        });
+        if (Schema::hasTable('recommendations')) {
+            Schema::table('recommendations', function (Blueprint $table) {
+                if (!Schema::hasColumn('recommendations', 'song_id')) {
+                    $table->foreignId('song_id')
+                        ->nullable()
+                        ->after('id')
+                        ->constrained('songs')
+                        ->nullOnDelete();
+                }
+            });
+        }
     }
 
     /**
@@ -25,12 +41,21 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('recommendations', function (Blueprint $table) {
-            $table->dropConstrainedForeignId('song_id');
-        });
+        if (Schema::hasTable('recommendations')) {
+            Schema::table('recommendations', function (Blueprint $table) {
+                if (Schema::hasColumn('recommendations', 'song_id')) {
+                    $table->dropForeign(['song_id']);
+                    $table->dropColumn('song_id');
+                }
+            });
+        }
 
-        Schema::table('songs', function (Blueprint $table) {
-            $table->dropColumn('lyrics');
-        });
+        if (Schema::hasTable('songs')) {
+            Schema::table('songs', function (Blueprint $table) {
+                if (Schema::hasColumn('songs', 'lyrics')) {
+                    $table->dropColumn('lyrics');
+                }
+            });
+        }
     }
 };
