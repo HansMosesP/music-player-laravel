@@ -12,13 +12,25 @@
     @endif
 
     @if($premium && $premium->status == 'active')
-        <p>Status: <b> AKUN PREMIUM </b></p>
+        <p>Status Akun: <b>AKUN PREMIUM (AKTIF)</b></p>
         <p>Jenis Paket: <b>{{ $premium->package_name }}</b></p>
+        <p>Tanggal Aktivasi: <b>{{ $premium->created_at->format('d M Y, H:i') }} WIB</b></p>
+        
+        <p>Berlaku Sampai: 
+            <b>
+                @if(strtolower($premium->package_name) == 'bulanan')
+                    {{ $premium->created_at->addDays(30)->format('d M Y, H:i') }} WIB (Paket 30 Hari)
+                @else
+                    {{ $premium->created_at->addYear()->format('d M Y, H:i') }} WIB (Paket 1 Tahun)
+                @endif
+            </b>
+        </p>
+
         <p>Nikmati akses pemutar musik tanpa batas!</p>
 
         <br>
         
-        @if($premium->package_name == 'Bulanan' || $premium->package_name == 'bulanan')
+        @if(strtolower($premium->package_name) == 'bulanan')
             <form action="{{ route('premium.update', $premium->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin beralih ke langganan tahunan?\nHarganya Rp. 399.000 / tahun')">
                 @csrf
                 @method('PUT')
@@ -34,7 +46,7 @@
         </form>
             
     @else
-        <p>Status: <b>User Biasa (Gratisan)</b></p>
+        <p>Status Akun: <b>User Biasa (Gratisan)</b></p>
         <p>Upgrade ke premium sekarang untuk membuka semua fitur exclusif.</p>
         <p>
             <a href="{{ route('premium.create') }}"><button type="button">Beli Paket Premium</button></a>

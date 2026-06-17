@@ -8,10 +8,15 @@
 <body>
     <h1>Ini Adalah Daftar Rekomendasi Musik Untuk Kamu, Selamat Mendengarkan!</h1>
 
-    <p>
-        Login sebagai: <strong>{{ auth()->user()->name }}</strong>
+    <p style="display: flex; align-items: center; gap: 15px;">
+        <span>Login sebagai: <strong>{{ auth()->user()->name }}</strong></span>
+        
+        <a href="{{ url('/premiums') }}" style="text-decoration: none;">
+            <button type="button" style="background-color: none; color: #b48906; font-weight: bold; border: 1px solid #e2c974; padding: 5px 12px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 4px; transition: 0.2s;">
+                👑 Kelola Akun Premium
+            </button>
+        </a>
     </p>
-
     <p>
         <a href="{{ route('recommendations.create') }}">
             <button type="button">+ Tambah Rekomendasi Baru</button>
@@ -45,6 +50,11 @@
     @if(session('success'))
         <p style="color: green;"><b>{{ session('success') }}</b></p>
     @endif
+    
+    @if(session('error'))
+        <p style="color: red;"><b>{{ session('error') }}</b></p>
+    @endif
+
     <form method="POST" action="{{ route('logout') }}">
         @csrf
         <button type="submit">Logout</button>
@@ -89,6 +99,12 @@
                     @else
                         <button type="submit">➕ Tambah Favorit</button>
                     @endif
+                </form>
+
+                <form action="{{ route('recommendations.destroy', $music->id) }}" method="POST" onsubmit="return confirm('Apakah kamu yakin ingin menghapus lagu ini dari daftar rekomendasi?')" style="display:inline; margin-left: 10px;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" style="color: red;"> Hapus Rekomendasi</button>
                 </form>
             </li>
         @endforeach

@@ -112,6 +112,12 @@ class RecommendationController extends Controller
      */
     public function destroy(Recommendation $recommendation)
     {
-        //
+        if ($recommendation->user_id !== auth()->id()) {
+        return redirect()->back()->with('error', 'Kamu tidak berhak menghapus rekomendasi ini!');
+    }
+
+        $recommendation->delete();
+
+    return redirect()->route('recommendations.index')->with('success', 'Rekomendasi lagu berhasil dihapus!');
     }
 }
