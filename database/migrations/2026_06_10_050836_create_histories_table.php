@@ -1,5 +1,3 @@
-database/migrations/xxxx_xx_xx_xxxxxx_create_histories_table.php
- 
 <?php
  
 use Illuminate\Database\Migrations\Migration;

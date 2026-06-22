@@ -32,7 +32,7 @@
                         <strong>Lagu sudah tidak tersedia.</strong>
                     @endif
 
-                    <form action="{{ route('history.destroy', $item->id) }}" method="POST" style="dsplay:inline; margin-left: 10px;">
+                    <form action="{{ route('history.destroy', $item->id) }}" method="POST" style="display:inline; margin-left: 10px;">
                         @csrf
                         @method('DELETE')
 
