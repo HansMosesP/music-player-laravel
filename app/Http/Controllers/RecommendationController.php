@@ -27,7 +27,7 @@ class RecommendationController extends Controller
             })
             ->all();
         
-        // Mengembalikan tampilan (view) bersama datanya
+        // Mengembalikan tampilan view bersama datanya
         return view('recommendations.index', compact('recommendations', 'favoriteKeys'));
     }
 
