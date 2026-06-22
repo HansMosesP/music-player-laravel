@@ -14,9 +14,14 @@ class DiscoveryController extends Controller
                             ->take(10)
                             ->get();
 
+        $fadedSong = Song::where('title', 'Faded')
+            ->where('artist', 'Alan Walker')
+            ->first();
+
         return view('discovery.index', compact(
             'latestSongs',
-            'popularSongs'
+            'popularSongs',
+            'fadedSong'
         ));
     }
 } 
