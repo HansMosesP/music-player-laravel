@@ -15,8 +15,11 @@ class RecommendationController extends Controller
      */
     public function index()
     {
-        // Mengambil semua data rekomendasi dari database
-        $recommendations = Recommendation::with('song')->get();
+        // Mengambil semua data rekomendasi milik user yang sedang login
+        $recommendations = Recommendation::with('song')
+            ->where('user_id', Auth::id())
+            ->get();
+
         $favoriteKeys = Favorite::where('user_id', Auth::id())
             ->get()
             ->map(function ($favorite) {

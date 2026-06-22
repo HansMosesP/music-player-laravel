@@ -101,11 +101,13 @@
                     @endif
                 </form>
 
-                <form action="{{ route('recommendations.destroy', $music->id) }}" method="POST" onsubmit="return confirm('Apakah kamu yakin ingin menghapus lagu ini dari daftar rekomendasi?')" style="display:inline; margin-left: 10px;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" style="color: red;"> Hapus Rekomendasi</button>
-                </form>
+                @if($music->user_id === auth()->id())
+                    <form action="{{ route('recommendations.destroy', $music->id) }}" method="POST" onsubmit="return confirm('Apakah kamu yakin ingin menghapus lagu ini dari daftar rekomendasi?')" style="display:inline; margin-left: 10px;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" style="color: red;"> Hapus Rekomendasi</button>
+                    </form>
+                @endif
             </li>
         @endforeach
     </ul>
