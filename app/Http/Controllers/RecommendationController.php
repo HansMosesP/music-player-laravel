@@ -114,6 +114,15 @@ class RecommendationController extends Controller
      */
     public function update(Request $request, Recommendation $recommendation)
     {
+        if ($request->input('type') === 'like') {
+        $recommendation->increment('likes');
+        return redirect(url()->previous() . '#music-' . $recommendation->id)->with('success', 'Berhasil menyukai lagu!');
+        } elseif ($request->input('type') === 'dislike') {
+        $recommendation->increment('dislikes');
+        return redirect(url()->previous() . '#music-' . $recommendation->id)->with('success', 'Berhasil memberikan dislike!');
+        }
+
+        return redirect()->back();
     }
 
     /**

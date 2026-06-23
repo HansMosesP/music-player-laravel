@@ -74,9 +74,29 @@
                 $artist = $displaySong->artist ?? $music->artist;
                 $lyrics = $displaySong->lyrics ?? null;
             @endphp
-            <li>
+            <li id="music-{{ $music->id }}" style="margin-bottom: 20px;">
                 <strong>{{ $songTitle }}</strong> - {{ $artist }} 
                 (Alasan: {{ $music->reason }})
+
+                <div style="display: flex; gap: 10px; margin-top: 8px; align-items: center;">
+                    <form action="{{ route('recommendations.vote', $music->id) }}#music-{{ $music->id }}" method="POST" style="display: inline;">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="type" value="like">
+                        <button type="submit" style="background: none; border: 1px solid #ccc; padding: 4px 10px; cursor: pointer; border-radius: 4px; display: flex; align-items: center; gap: 5px;">
+                            👍 <span>{{ $music->likes ?? 0 }}</span>
+                        </button>
+                    </form>
+
+                    <form action="{{ route('recommendations.vote', $music->id) }}#music-{{ $music->id }}" method="POST" style="display: inline;">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="type" value="dislike">
+                        <button type="submit" style="background: none; border: 1px solid #ccc; padding: 4px 10px; cursor: pointer; border-radius: 4px; display: flex; align-items: center; gap: 5px;">
+                            👎 <span>{{ $music->dislikes ?? 0 }}</span>
+                        </button>
+                    </form>
+                </div>
 
                 @if($lyrics)
                     <div style="margin-top: 8px; white-space: pre-wrap;">
@@ -89,25 +109,27 @@
                     <a href="{{ route('lyrics.show', $displaySong->id) }}">Buka halaman lirik</a>
                 </div>
 
-                <form action="{{ route('favorite.toggle') }}" method="POST" style="display:inline; margin-left: 10px;">
-                    @csrf
-                    <input type="hidden" name="song_title" value="{{ $songTitle }}">
-                    <input type="hidden" name="artist" value="{{ $artist }}">
-                    
-                    @if(in_array($songTitle . '|' . $artist, $favoriteKeys))
-                        <button type="submit">❌ Hapus Favorit</button>
-                    @else
-                        <button type="submit">➕ Tambah Favorit</button>
-                    @endif
-                </form>
-
-                @if($music->user_id === auth()->id())
-                    <form action="{{ route('recommendations.destroy', $music->id) }}" method="POST" onsubmit="return confirm('Apakah kamu yakin ingin menghapus lagu ini dari daftar rekomendasi?')" style="display:inline; margin-left: 10px;">
+                <div style="margin-top: 8px;">
+                    <form action="{{ route('favorite.toggle') }}" method="POST" style="display:inline;">
                         @csrf
-                        @method('DELETE')
-                        <button type="submit" style="color: red;"> Hapus Rekomendasi</button>
+                        <input type="hidden" name="song_title" value="{{ $songTitle }}">
+                        <input type="hidden" name="artist" value="{{ $artist }}">
+                        
+                        @if(in_array($songTitle . '|' . $artist, $favoriteKeys))
+                            <button type="submit">❌ Hapus Favorit</button>
+                        @else
+                            <button type="submit">➕ Tambah Favorit</button>
+                        @endif
                     </form>
-                @endif
+
+                    @if($music->user_id === auth()->id())
+                        <form action="{{ route('recommendations.destroy', $music->id) }}" method="POST" onsubmit="return confirm('Apakah kamu yakin ingin menghapus lagu ini dari daftar rekomendasi?')" style="display:inline; margin-left: 10px;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" style="color: red;">Hapus Rekomendasi</button>
+                        </form>
+                    @endif
+                </div>
             </li>
         @endforeach
     </ul>
