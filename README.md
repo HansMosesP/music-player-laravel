@@ -833,12 +833,6 @@ https://github.com/HansMosesP/music-player-laravel.git
 
 ---
 
-## Lisensi
-
-Project ini dibuat untuk kebutuhan pembelajaran dan tugas kuliah.
-
----
-
 ## Author
 
 Final Project UAS Backend Programming  
