@@ -47,6 +47,12 @@
         </a>
     </p>
 
+    <p>
+        <a href="{{ route('history.index') }}">
+            <button type="button">Lihat History</button>
+        </a>
+    </p>
+
     @if(session('success'))
         <p style="color: green;"><b>{{ session('success') }}</b></p>
     @endif

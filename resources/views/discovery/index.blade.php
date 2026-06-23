@@ -16,7 +16,7 @@
     <div>
         <strong>{{ $fadedSong->title }}</strong> - {{ $fadedSong->artist }}
         <div>
-            <audio controls preload="none" style="width: 100%; max-width: 500px;">
+            <audio controls preload="none" style="width: 100%; max-width: 500px;" onplay="saveHistory({{ $fadedSong->id }})">
                 <source src="{{ asset('storage/Faded.mp3') }}" type="audio/mpeg">
                 Browser tidak mendukung pemutar audio.
             </audio>
@@ -52,5 +52,18 @@
 
 @endforeach
 
+<script>
+function saveHistory(songId) {
+    fetch("{{ route('history.store') }}", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({ song_id: songId })
+    });
+}
+</script>
+
 </body>
-</html> 
+</html>

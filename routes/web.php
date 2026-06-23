@@ -53,4 +53,6 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/history', [HistoryController::class, 'index'])->name('history.index');
+    Route::post('/history/store', [HistoryController::class, 'store'])->name('history.store');
+    Route::delete('/history/{history}', [HistoryController::class, 'destroy'])->name('history.destroy');
 });
