@@ -15,7 +15,6 @@ class RecommendationController extends Controller
      */
     public function index()
     {
-        // Mengambil semua data rekomendasi milik user yang sedang login
         $recommendations = Recommendation::with('song')
             ->where('user_id', Auth::id())
             ->get();
@@ -27,7 +26,6 @@ class RecommendationController extends Controller
             })
             ->all();
         
-        // Mengembalikan tampilan view bersama datanya
         return view('recommendations.index', compact('recommendations', 'favoriteKeys'));
     }
 
@@ -36,7 +34,6 @@ class RecommendationController extends Controller
      */
     public function create()
     {
-        // Menampilkan halaman form untuk menambah lagu rekomendasi baru
         $songs = Song::orderBy('title')->get();
 
         return view('recommendations.create', compact('songs'));
@@ -50,22 +47,17 @@ class RecommendationController extends Controller
 
         $user = Auth::user();
 
-        // Cek jika user (Admin atau User Biasa) 
         $checkPremium = \App\Models\Premium::where('user_id', $user->id)->first();
 
-        // Jika data premium TIDAK ditemukan (alias bernilai null/kosong), berarti dia user gratisan!
         if (!$checkPremium) {
         
-        // Hitung berapa banyak rekomendasi lagu yang sudah ditambahkan oleh user ini
         $currentCount = Recommendation::where('user_id', $user->id)->count();
 
-        // Jika sudah mencapai atau lebih dari 2, langsung stop dan lempar error balik ke halaman utama
         if ($currentCount >= 2) {
             return redirect('/recommendations')->with('error', 'Gagal menambah! Akun anda belum premium dan hanya boleh input maksimal 2 rekomendasi. Yuk upgrade ke Premium! 👑');
             }
         }
 
-        // 1. Validasi input form agar tidak kosong
         $validated = $request->validate([
             'song_id'    => 'required|exists:songs,id',
             'song_title' => 'required|string|max:255',
@@ -75,16 +67,14 @@ class RecommendationController extends Controller
 
         $song = Song::findOrFail($validated['song_id']);
 
-        // 2. Simpan ke database menggunakan data user 
         Recommendation::create([
-            'user_id'    => Auth::id(), // Mengambil ID user yang sedang login
+            'user_id'    => Auth::id(),
             'song_id'    => $song->id,
             'song_title' => $song->title,
             'artist'     => $song->artist,
             'reason'     => $validated['reason'],
         ]);
 
-        // 3. Redirect kembali ke halaman utama 
         return redirect('/recommendations')->with('success', 'Rekomendasi lagu berhasil ditambahkan!');
     }
     
@@ -117,7 +107,6 @@ class RecommendationController extends Controller
      */
     public function edit(Recommendation $recommendation)
     {
-        // 
     }
 
     /**
@@ -125,7 +114,6 @@ class RecommendationController extends Controller
      */
     public function update(Request $request, Recommendation $recommendation)
     {
-        //
     }
 
     /**

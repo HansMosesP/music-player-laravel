@@ -13,7 +13,6 @@ class SongSeeder extends Seeder
      */
     public function run(): void
     {
-        // Insert genres
         $genres = [
             ['name' => 'Pop'],
             ['name' => 'Rock'],
@@ -24,7 +23,6 @@ class SongSeeder extends Seeder
             Genre::firstOrCreate($genre);
         }
 
-        // Insert songs
         $pop = Genre::where('name', 'Pop')->first();
         $rock = Genre::where('name', 'Rock')->first();
         $jazz = Genre::where('name', 'Jazz')->first();

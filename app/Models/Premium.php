@@ -9,7 +9,6 @@ class Premium extends Model
 {
     protected $table = 'premiums';
 
-    // Mendaftarkan kolom supaya aman disaat nanti diinput lewat form 
     protected $fillable = [
         'user_id',
         'package_name',

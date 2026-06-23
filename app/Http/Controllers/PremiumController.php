@@ -13,10 +13,7 @@ class PremiumController extends Controller
      */
     public function index()
     {
-        // Mengambil data premium untuk user 
-        $premium = Premium::where('user_id', Auth::id())->first(); 
-        // $premium = null;
-        // Mengirim data status premium ke halaman view
+        $premium = Premium::where('user_id', Auth::id())->first();
         return view('premium.index', compact('premium'));
     }
 
@@ -25,7 +22,6 @@ class PremiumController extends Controller
      */
     public function create()
     {
-        // Menampilkan halaman pilihan paket premium 
         return view ('premium.create');
     }
 
@@ -34,19 +30,16 @@ class PremiumController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasi input paket yang dipilih oleh user
         $request->validate([
             'package_name' => 'required|string|max:255',
         ]);
 
-        // Simpan data premium baru ke database terhubung dengan ID User
         Premium::create([
             'user_id' => Auth::id(),
             'package_name' => $request->package_name,
-            'status' => 'active', // setelah membeli akan langsung aktif paketnya
+            'status' => 'active',
         ]);
 
-        // Kembali ke halaman premium dengan pesan sukses
         return redirect()->route('premium.index')->with('success', 'Selamat! Akun Anda sudah menjadi Premium.');
     }
 
@@ -55,7 +48,6 @@ class PremiumController extends Controller
      */
     public function show(Premium $premium)
     {
-        //
     }
 
     /**
@@ -63,7 +55,6 @@ class PremiumController extends Controller
      */
     public function edit(Premium $premium)
     {
-        //
     }
 
     /**
@@ -71,12 +62,10 @@ class PremiumController extends Controller
      */
     public function update(Request $request, Premium $premium)
     {
-        // Memastikan bahwa data premium yang diubah adalah benar milik user yang sedang login
         if ($premium->user_id !== Auth::id()) {
             abort(403, 'Aksi tidak diizinkan.');
         }
 
-        // Mengubah isi paket menjadi Tahunan
         $premium->update([
             'package_name' => 'Tahunan',
         ]);
@@ -89,12 +78,10 @@ class PremiumController extends Controller
      */
     public function destroy(Premium $premium)
     {
-        // Memastikan bahwa data premium yang dihapus adalah benar milik user yang sedang login
         if ($premium->user_id !== Auth::id()) {
             abort(403, 'Aksi tidak diizinkan.');
         }
 
-        // Menghapus data langganan premium dari database
         $premium->delete();
 
         return redirect()->route('premium.index')->with('success', 'Langganan premium Anda telah berhasil dibatalkan.');
